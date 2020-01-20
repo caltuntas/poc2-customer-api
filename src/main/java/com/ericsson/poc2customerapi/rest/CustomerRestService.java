@@ -35,7 +35,7 @@ public class CustomerRestService {
     private CustomerService service;
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)     
     @ApiOperation("Returns customer with given id ")
-    public Customer getTemplate(@PathVariable("id") String id) {
+    public Customer getCustomer(@PathVariable("id") String id) {
     	return service.getById(id);    	
     }
 }
