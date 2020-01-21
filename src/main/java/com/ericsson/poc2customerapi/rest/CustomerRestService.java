@@ -5,6 +5,8 @@
  */
 package com.ericsson.poc2customerapi.rest;
 
+import com.ericsson.poc2customerapi.dto.CreateCustomerRequest;
+import com.ericsson.poc2customerapi.dto.UpdateCustomerRequest;
 import com.ericsson.poc2customerapi.model.Customer;
 import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
@@ -33,9 +35,24 @@ import com.ericsson.poc2customerapi.service.CustomerService;
 public class CustomerRestService {   
     @Autowired
     private CustomerService service;
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)     
     @ApiOperation("Returns customer with given id ")
-    public Customer getCustomer(@PathVariable("id") String id) {
+    public Customer get(@PathVariable("id") String id) {
     	return service.getById(id);    	
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("Creates a customer")
+    public Customer create(@Valid @RequestBody CreateCustomerRequest request) {
+    	Customer response = service.createCustomer(request);
+        return response;
+    }
+    
+    @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("Updates a customer")
+    public Customer update(@Valid @RequestBody UpdateCustomerRequest request) {
+    	Customer response = service.updateCustomer(request);
+        return response;
     }
 }

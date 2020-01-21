@@ -5,6 +5,8 @@
  */
 package com.ericsson.poc2customerapi.service;
 
+import com.ericsson.poc2customerapi.dto.CreateCustomerRequest;
+import com.ericsson.poc2customerapi.dto.UpdateCustomerRequest;
 import com.ericsson.poc2customerapi.model.Customer;
 import com.ericsson.poc2customerapi.repository.CustomerRepository;
 import java.util.Optional;
@@ -24,5 +26,22 @@ public class CustomerService {
         if(customer.isPresent())
             return customer.get();
         return null;
+    }
+
+    public Customer createCustomer(CreateCustomerRequest request) {
+        Customer newCustomer = new Customer();
+        newCustomer.setFirstName(request.getFirstName());
+        newCustomer.setLastName(request.getLastName());
+        newCustomer.setNationalId(request.getNationalId());
+        return repository.save(newCustomer);        
+    }
+
+    public Customer updateCustomer(UpdateCustomerRequest request) {
+        Customer existingCustomer = new Customer();
+        existingCustomer.setId(request.getId());
+        existingCustomer.setFirstName(request.getFirstName());
+        existingCustomer.setLastName(request.getLastName());
+        existingCustomer.setNationalId(request.getNationalId());
+        return repository.save(existingCustomer);        
     }
 }
