@@ -10,7 +10,7 @@
     </appender>    
    
     <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>ec2-3-16-13-137.us-east-2.compute.amazonaws.com:9611</destination> 
+        <destination>${LOGSTASH_HOST}</destination> 
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
