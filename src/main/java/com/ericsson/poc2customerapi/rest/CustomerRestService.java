@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.ericsson.poc2customerapi.service.CustomerService;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -36,9 +38,15 @@ public class CustomerRestService {
     @Autowired
     private CustomerService service;
     
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)     
+    @ApiOperation("Returns customer with given id ")
+    public List<Customer> getAll(@RequestParam("filter") String filter) {
+    	return service.getAll(filter);    	
+    }
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)     
     @ApiOperation("Returns customer with given id ")
-    public Customer get(@PathVariable("id") String id) {
+    public Customer getById(@PathVariable("id") String id) {
     	return service.getById(id);    	
     }
     
