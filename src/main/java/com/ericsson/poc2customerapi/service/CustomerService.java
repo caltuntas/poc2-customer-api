@@ -16,6 +16,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import static net.logstash.logback.argument.StructuredArguments.kv;
 
 /**
  *
@@ -23,6 +26,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CustomerService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    
     @Autowired
     private CustomerRepository repository;
     public Customer getById(String id){
@@ -37,15 +42,22 @@ public class CustomerService {
         newCustomer.setFirstName(request.getFirstName());
         newCustomer.setLastName(request.getLastName());
         newCustomer.setNationalId(request.getNationalId());
+        logger.info("Created a new customer", kv("customer", newCustomer));        
         return repository.save(newCustomer);        
     }
 
     public Customer updateCustomer(UpdateCustomerRequest request) {
+        Optional<Customer> customer =repository.findById(request.getId());
+        if(!customer.isPresent()){
+            return null;
+        }
+        
         Customer existingCustomer = new Customer();
         existingCustomer.setId(request.getId());
         existingCustomer.setFirstName(request.getFirstName());
         existingCustomer.setLastName(request.getLastName());
-        existingCustomer.setNationalId(request.getNationalId());
+        existingCustomer.setNationalId(request.getNationalId());        
+        logger.info("Updated customer",kv("customer", customer), kv("updatedCustomer", existingCustomer));        
         return repository.save(existingCustomer);        
     }
 
