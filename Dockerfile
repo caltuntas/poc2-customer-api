@@ -2,7 +2,6 @@ FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
 EXPOSE 8080
 COPY pom.xml /build/
 COPY src /build/src/
-COPY lib /build/lib/
 WORKDIR /build/
 RUN mvn package
 
